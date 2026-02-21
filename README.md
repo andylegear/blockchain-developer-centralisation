@@ -1,5 +1,6 @@
 # Blockchain Developer Centralisation — Reproducibility Pack
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/andylegear/blockchain-developer-centralisation)
 [![DOI](https://img.shields.io/badge/Paper-BCCA%202026-blue)](https://doi.org/TBD)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
