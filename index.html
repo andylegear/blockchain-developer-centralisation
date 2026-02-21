@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain Developer Centralisation — Reproducibility Pack</title>
+  <style>
+    :root { --accent: #0366d6; --bg: #ffffff; --text: #24292e; --muted: #586069; --border: #e1e4e8; --code-bg: #f6f8fa; }
+    @media (prefers-color-scheme: dark) {
+      :root { --accent: #58a6ff; --bg: #0d1117; --text: #c9d1d9; --muted: #8b949e; --border: #30363d; --code-bg: #161b22; }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h1 { font-size: 1.8rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem; margin-bottom: 1rem; }
+    h2 { font-size: 1.3rem; margin-top: 2rem; margin-bottom: .75rem; border-bottom: 1px solid var(--border); padding-bottom: .3rem; }
+    h3 { font-size: 1.1rem; margin-top: 1.2rem; margin-bottom: .4rem; }
+    p, li { margin-bottom: .5rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: var(--code-bg); padding: .15em .35em; border-radius: 3px; font-size: .9em; }
+    pre { background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: .75rem 0; }
+    pre code { padding: 0; background: none; }
+    table { border-collapse: collapse; width: 100%; margin: .75rem 0; font-size: .92em; }
+    th, td { text-align: left; padding: .45rem .6rem; border: 1px solid var(--border); }
+    th { background: var(--code-bg); font-weight: 600; }
+    .muted { color: var(--muted); font-size: .9em; }
+    ul { padding-left: 1.4rem; }
+    .badges img { vertical-align: middle; margin-right: .3rem; }
+  </style>
+</head>
+<body>
+
+<h1>Blockchain Developer Centralisation — Reproducibility Pack</h1>
+
+<p class="badges">
+  <img src="https://img.shields.io/badge/Paper-BCCA%202026-blue" alt="Paper">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+</p>
+
+<p>
+  Companion repository for:<br>
+  <strong>A.&nbsp;R.&nbsp;Sai and A.&nbsp;Le&nbsp;Gear</strong>,
+  <em>"Beyond Commit Counts: A Multi-Dimensional Empirical Analysis of Developer Centralization in Blockchain Open-Source Ecosystems,"</em>
+  IEEE&nbsp;BCCA, Barcelona, 2026.
+</p>
+
+<h2>Repository Structure</h2>
+<pre><code>analysis/
+├── centralization_analysis.py   Core analysis
+├── extended_analysis.py         Language, age, entropy, cross-pollination
+├── extra_charts.py              7 multi-dimensional visualisations
+├── untapped_analysis.py         LoC concentration, tenure, profiling
+├── RESULTS.md                   Full narrative results (21 sections)
+├── EXTENDED_ANALYSES.md         Description of extended scripts
+├── cache/                       Cached GitHub API responses (352 files)
+└── output/                      Generated CSVs (11) and PNGs (18)</code></pre>
+
+<h2>Quick Start</h2>
+
+<h3>Prerequisites</h3>
+<ul>
+  <li>Python 3.10+</li>
+  <li>A GitHub personal access token (set <code>GITHUB_TOKEN</code> env var)</li>
+</ul>
+
+<h3>Setup</h3>
+<pre><code>python -m venv .venv
+.venv\Scripts\activate          # Windows
+pip install pandas numpy matplotlib scipy PyGithub tqdm tenacity</code></pre>
+
+<h3>Run the analyses (in order)</h3>
+<pre><code>cd analysis
+python centralization_analysis.py   # 1. Core metrics (uses GitHub API)
+python extended_analysis.py         # 2. Cross-sectional moderators
+python extra_charts.py              # 3. Combined visualisations
+python untapped_analysis.py         # 4. LoC, tenure, profiling</code></pre>
+
+<p class="muted">Step 1 fetches data from the GitHub API (~30–60 min). Pre-fetched JSON responses in <code>cache/</code> let you re-run without API access.</p>
+
+<h2>Output — Data Tables (CSV)</h2>
+<table>
+  <thead><tr><th>File</th><th>Description</th><th>Script</th></tr></thead>
+  <tbody>
+    <tr><td><a href="analysis/output/sampled_repos.csv">sampled_repos.csv</a></td><td>357 stratified-sampled repositories</td><td>centralization_analysis</td></tr>
+    <tr><td><a href="analysis/output/centralization_summary.csv">centralization_summary.csv</a></td><td>Per-repo Gini, HHI, top-k, bus factor</td><td>centralization_analysis</td></tr>
+    <tr><td><a href="analysis/output/centralization_monthly.csv">centralization_monthly.csv</a></td><td>Monthly Gini time series</td><td>centralization_analysis</td></tr>
+    <tr><td><a href="analysis/output/aggregate_statistics.csv">aggregate_statistics.csv</a></td><td>Population-level summary stats</td><td>centralization_analysis</td></tr>
+    <tr><td><a href="analysis/output/language_vs_centralization.csv">language_vs_centralization.csv</a></td><td>Per-language concentration</td><td>extended_analysis</td></tr>
+    <tr><td><a href="analysis/output/age_vs_centralization.csv">age_vs_centralization.csv</a></td><td>Age-vs-metric correlations</td><td>extended_analysis</td></tr>
+    <tr><td><a href="analysis/output/shannon_entropy.csv">shannon_entropy.csv</a></td><td>Shannon entropy per repo</td><td>extended_analysis</td></tr>
+    <tr><td><a href="analysis/output/ecosystem_overlap.csv">ecosystem_overlap.csv</a></td><td>Shared developers between ecosystems</td><td>extended_analysis</td></tr>
+    <tr><td><a href="analysis/output/top_cross_pollinators.csv">top_cross_pollinators.csv</a></td><td>Developers in 3+ repositories</td><td>extended_analysis</td></tr>
+    <tr><td><a href="analysis/output/untapped_repo_metrics.csv">untapped_repo_metrics.csv</a></td><td>LoC Gini, tenure, retention</td><td>untapped_analysis</td></tr>
+    <tr><td><a href="analysis/output/untapped_contributor_details.csv">untapped_contributor_details.csv</a></td><td>Per-contributor tenure and role</td><td>untapped_analysis</td></tr>
+  </tbody>
+</table>
+
+<h2>Output — Figures (PNG)</h2>
+<table>
+  <thead><tr><th>File</th><th>Description</th><th>Paper</th></tr></thead>
+  <tbody>
+    <tr><td><a href="analysis/output/centralization_plots.png">centralization_plots.png</a></td><td>6-panel core metrics overview</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/loc_concentration.png">loc_concentration.png</a></td><td>Commit Gini vs LoC Gini</td><td>Fig.&nbsp;1</td></tr>
+    <tr><td><a href="analysis/output/arrival_departure.png">arrival_departure.png</a></td><td>Monthly arrivals &amp; departures</td><td>Fig.&nbsp;2</td></tr>
+    <tr><td><a href="analysis/output/ecosystem_network.png">ecosystem_network.png</a></td><td>Cross-pollination network</td><td>Fig.&nbsp;3</td></tr>
+    <tr><td><a href="analysis/output/language_vs_centralization.png">language_vs_centralization.png</a></td><td>Metrics by language</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/age_vs_centralization.png">age_vs_centralization.png</a></td><td>Age vs Gini regression</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/shannon_entropy.png">shannon_entropy.png</a></td><td>Entropy distribution</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/cross_pollination.png">cross_pollination.png</a></td><td>Developer-repo bipartite stats</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/radar_language_profiles.png">radar_language_profiles.png</a></td><td>Language profile spider chart</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/bubble_age_gini_stars.png">bubble_age_gini_stars.png</a></td><td>Age × Gini × stars bubble chart</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/violin_language_metrics.png">violin_language_metrics.png</a></td><td>Violin plots by language</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/gini_vs_entropy_by_language.png">gini_vs_entropy_by_language.png</a></td><td>Gini vs entropy scatter</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/correlation_heatmap.png">correlation_heatmap.png</a></td><td>Spearman correlation matrix</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/developer_participation.png">developer_participation.png</a></td><td>Repos-per-developer histogram</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/tenure_retention.png">tenure_retention.png</a></td><td>Tenure &amp; retention rates</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/consistency_analysis.png">consistency_analysis.png</a></td><td>Activity consistency</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/authorship_vs_maintenance.png">authorship_vs_maintenance.png</a></td><td>Author / Balanced / Maintainer roles</td><td>—</td></tr>
+    <tr><td><a href="analysis/output/untapped_dashboard.png">untapped_dashboard.png</a></td><td>4-panel LoC &amp; sustainability</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h2>Methodology</h2>
+<ol>
+  <li><strong>Population:</strong> 4,905 blockchain OSS repos from <a href="https://www.awesomecrypto.xyz/">Awesome Crypto Projects</a></li>
+  <li><strong>Sampling:</strong> Stratified by star-count deciles; 357 sampled, 345 retrieved (95% CI, 5% MoE)</li>
+  <li><strong>Data source:</strong> GitHub REST API <code>stats/contributors</code></li>
+  <li><strong>Metrics:</strong> Gini, HHI, top-k shares, bus factor, Shannon entropy — on commits and LoC</li>
+  <li><strong>Extended:</strong> Language/age/popularity moderators, temporal persistence, tenure, retention, cross-pollination</li>
+</ol>
+
+<p>See <a href="analysis/RESULTS.md">RESULTS.md</a> and <a href="analysis/EXTENDED_ANALYSES.md">EXTENDED_ANALYSES.md</a> for full details.</p>
+
+<h2>Citation</h2>
+<pre><code>@inproceedings{sai2026beyondcommits,
+  author    = {Sai, Ashish Rajendra and {Le Gear}, Andrew},
+  title     = {Beyond Commit Counts: A Multi-Dimensional Empirical Analysis
+               of Developer Centralization in Blockchain Open-Source Ecosystems},
+  booktitle = {2026 IEEE BCCA},
+  year      = {2026},
+  publisher = {IEEE},
+  address   = {Barcelona, Spain}
+}</code></pre>
+
+<h2>License</h2>
+<p>Released under the <a href="LICENSE">MIT License</a>.</p>
+
+</body>
+</html>

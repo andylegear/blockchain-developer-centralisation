@@ -1,0 +1,12 @@
+# Excluded from reproducibility pack
+sources/
+paper/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
